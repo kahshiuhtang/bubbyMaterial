@@ -1,4 +1,4 @@
-# Relationship Tracker
+# bubbyMaterial
 
 ## Purpose:
 
@@ -26,3 +26,28 @@
   - Allowed to view/use app, just can't particpate without
 - Only a certain amount of points can be allocated each day/week/month
 - Points cannot be taken away or given back once they have been removed/added
+- Uses SQLlite to store data from the app
+
+## Layout:
+
+### Pages:
+
+- Home Page
+  - Access point incrementors
+- Explore Page
+  - Search bar within friends and new people
+  - Leaderboard with friends
+- Profile Page - View each category
+  -Can edit the categories and adjust values
+  -Stats Page
+  - View statistics of each category
+
+### Menus:
+
+- Settings
+- Edit Objective
+- Add Objective
+
+## Sources
+
+- https://github.com/akshayejh/what_todo/blob/master/lib/database_helper.dart
