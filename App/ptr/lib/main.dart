@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import './widgets/ObjectiveCardWidget.dart';
+import './screens/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -58,7 +60,7 @@ class _HomeState extends State<Home> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: HomePage(),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
