@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ObjectiveWidget extends StatelessWidget {
+  final String text;
+  final bool isDone;
+  ObjectiveWidget({required this.text, required this.isDone});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,8 +16,14 @@ class ObjectiveWidget extends StatelessWidget {
               //decoration: BoxDecoration(
               //color: Color(0xFF7349FE),
               //borderRadius: BorderRadius.circular(9.0)),
-              child: Icon(Icons.check_box_outlined)),
-          Text("Hello")
+              child: isDone
+                  ? Icon(Icons.check_box_outlined)
+                  : Icon(Icons.check_box_outline_blank)),
+          Text(text ?? "(Unnamed Text)",
+              style: TextStyle(
+                  color: isDone ? Color(0xFF211551) : Color(0xFF86829D),
+                  fontSize: 16.0,
+                  fontWeight: isDone ? FontWeight.bold : FontWeight.normal))
         ]));
   }
 }

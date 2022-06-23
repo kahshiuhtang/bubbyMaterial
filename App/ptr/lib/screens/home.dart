@@ -39,8 +39,10 @@ class _HomePageState extends State<HomePage> {
                         MaterialPageRoute(
                             builder: (context) => AddObjectivePopUp()));
                   },
-                  child: Icon(Icons.add_circle_sharp,
-                      color: Colors.purple, size: 55.0)),
+                  child: Icon(
+                      color: Color(0xFF7349FE),
+                      Icons.add_circle_sharp,
+                      size: 55.0)),
             ),
           ])),
     ));
