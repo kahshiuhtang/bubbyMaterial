@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/ObjectiveDescriptionWidget.dart';
+import 'package:ptr/services/databaseHelper.dart';
+import 'package:ptr/models/objective.dart';
 
 class AddObjectivePopUp extends StatefulWidget {
   @override
@@ -28,6 +30,18 @@ class _AddObjectivePopUpState extends State<AddObjectivePopUp> {
                   child: Icon(Icons.arrow_back_outlined))),
           Expanded(
               child: TextField(
+                  onSubmitted: (value) async {
+                    if (value != "") {
+                      DatabaseHelper dbHelper = DatabaseHelper();
+                      Objective newObjective = Objective(
+                        id: 0,
+                        points: 1,
+                        description: "Hello",
+                        title: value,
+                      );
+                      await dbHelper.insertObjective(newObjective);
+                    }
+                  },
                   decoration: InputDecoration(
                     hintText: "Enter Objective Name",
                     border: InputBorder.none,
