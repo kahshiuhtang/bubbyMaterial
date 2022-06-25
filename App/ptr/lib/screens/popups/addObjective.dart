@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../widgets/ObjectiveDescriptionWidget.dart';
 import 'package:ptr/services/databaseHelper.dart';
 import 'package:ptr/models/objective.dart';
@@ -32,14 +31,14 @@ class _AddObjectivePopUpState extends State<AddObjectivePopUp> {
               child: TextField(
                   onSubmitted: (value) async {
                     if (value != "") {
-                      DatabaseHelper dbHelper = DatabaseHelper();
                       Objective newObjective = Objective(
-                        id: 0,
+                        id: UniqueKey().hashCode,
                         points: 1,
                         description: "Hello",
                         title: value,
                       );
-                      await dbHelper.insertObjective(newObjective);
+                      await DatabaseHelper.insertObjective(newObjective);
+                      setState(() {});
                     }
                   },
                   decoration: InputDecoration(
