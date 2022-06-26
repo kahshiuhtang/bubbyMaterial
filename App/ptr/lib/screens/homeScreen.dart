@@ -3,12 +3,12 @@ import 'package:ptr/widgets/ObjectiveCardWidget.dart';
 import 'package:ptr/services/databaseHelper.dart';
 import './popups/addObjective.dart';
 
-class HomePage extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   DatabaseHelper dbHelper = new DatabaseHelper();
   Widget build(BuildContext context) {
     return Scaffold(

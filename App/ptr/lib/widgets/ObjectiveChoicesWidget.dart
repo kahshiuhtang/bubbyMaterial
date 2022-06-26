@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ObjectiveWidget extends StatelessWidget {
+class ObjectiveChoicesWidget extends StatelessWidget {
   final String text;
   final bool isDone;
-  ObjectiveWidget({required this.text, required this.isDone});
+  ObjectiveChoicesWidget({required this.text, required this.isDone});
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ptr/screens/loginScreen.dart';
 import './widgets/ObjectiveCardWidget.dart';
-import './screens/home.dart';
+import 'screens/homeScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,10 +13,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'bubbyMaterial',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const Home(title: 'bubbyMaterial'),
+      home: LoginScreen(),
     );
   }
 }
@@ -60,7 +62,7 @@ class _HomeState extends State<Home> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: HomePage(),
+        child: LoginScreen(),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

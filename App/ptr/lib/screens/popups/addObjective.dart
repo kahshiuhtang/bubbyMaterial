@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/ObjectiveDescriptionWidget.dart';
+import '../../widgets/ObjectiveChoicesWidget.dart';
 import 'package:ptr/services/databaseHelper.dart';
 import 'package:ptr/models/objective.dart';
 
@@ -57,10 +57,8 @@ class _AddObjectivePopUpState extends State<AddObjectivePopUp> {
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 24.0,
                 ))),
-        ObjectiveWidget(text: "Repeatable", isDone: false),
-        ObjectiveWidget(text: "Repeatable 1", isDone: true),
-        ObjectiveWidget(text: "Objective 3", isDone: false),
-        ObjectiveWidget(text: "End 4", isDone: false)
+        ObjectiveChoicesWidget(text: "Repeatable", isDone: false),
+        ObjectiveChoicesWidget(text: "Repeatable 1", isDone: true),
       ]),
       Positioned(
         bottom: 0.0,

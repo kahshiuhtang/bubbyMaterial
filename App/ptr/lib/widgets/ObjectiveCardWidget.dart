@@ -30,7 +30,7 @@ class ObjectiveCardWidget extends StatelessWidget {
                   color: Color(0xFF868290),
                   fontSize: 14.0,
                   fontWeight: FontWeight.normal),
-            )
+            ),
           ],
         ),
         decoration: BoxDecoration(
