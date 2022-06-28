@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../widgets/ObjectiveChoicesWidget.dart';
-import 'package:ptr/services/databaseHelper.dart';
+import 'package:ptr/services/DatabaseHelper.dart';
 import 'package:ptr/models/objective.dart';
 
-class AddObjectivePopUp extends StatefulWidget {
+class EditObjectiveScreen extends StatefulWidget {
   @override
-  _AddObjectivePopUpState createState() => _AddObjectivePopUpState();
+  _EditObjectiveScreen createState() => _EditObjectiveScreen();
 }
 
-class _AddObjectivePopUpState extends State<AddObjectivePopUp> {
+class _EditObjectiveScreen extends State<EditObjectiveScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
