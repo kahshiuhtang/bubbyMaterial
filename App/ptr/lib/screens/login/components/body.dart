@@ -4,6 +4,8 @@ import 'package:ptr/screens/createAccount/CreateAccountScreen.dart';
 import 'package:ptr/screens/login/LoginScreen.dart';
 import 'package:ptr/screens/home/HomeScreen.dart';
 
+import '../../../main.dart';
+
 class Body extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -14,9 +16,20 @@ class _LoginScreenState extends State<Body> {
   final passwordController = TextEditingController();
 
   Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim());
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(child: CircularProgressIndicator());
+        });
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 
   Widget build(BuildContext context) {
@@ -43,7 +56,7 @@ class _LoginScreenState extends State<Body> {
           Padding(
             padding: const EdgeInsets.only(
                 left: 15.0, right: 15.0, top: 25, bottom: 0),
-            child: TextField(
+            child: TextFormField(
               controller: emailController,
               cursorColor: Color.fromARGB(255, 124, 108, 119),
               decoration: InputDecoration(
@@ -67,7 +80,7 @@ class _LoginScreenState extends State<Body> {
           Padding(
             padding: const EdgeInsets.only(
                 left: 15.0, right: 15.0, top: 15, bottom: 0),
-            child: TextField(
+            child: TextFormField(
               controller: passwordController,
               cursorColor: Color.fromARGB(255, 124, 108, 119),
               obscureText: true,

@@ -18,6 +18,8 @@ void main() async {
   runApp(MyApp());
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'bubbyMaterial',
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       home: MainScreen(),
       routes: routes_,
@@ -40,6 +43,10 @@ class MainScreen extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return LoginScreen();
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Text("Error: Please Try Again");
               } else {
                 return LoginScreen();
               }

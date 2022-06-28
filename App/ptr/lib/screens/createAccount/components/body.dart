@@ -1,14 +1,33 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../../main.dart';
 
 class Body extends StatefulWidget {
   _CreateAccountScreenState createState() => _CreateAccountScreenState();
 }
 
 class _CreateAccountScreenState extends State<Body> {
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  createAccount() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return Center(child: CircularProgressIndicator());
+        });
+    try {
+      FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
@@ -31,6 +50,32 @@ class _CreateAccountScreenState extends State<Body> {
                             fontSize: 80,
                             color: Colors.white,
                             fontWeight: FontWeight.bold))),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 25, bottom: 0),
+                child: TextField(
+                  controller: nameController,
+                  cursorColor: Color.fromARGB(255, 124, 108, 119),
+                  decoration: InputDecoration(
+                      enabledBorder: const OutlineInputBorder(
+                        // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 124, 108, 119),
+                            width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 209, 208, 1163),
+                            width: 1.0),
+                      ),
+                      labelText: 'Full Name',
+                      labelStyle: TextStyle(
+                          color: Color.fromARGB(255, 124, 108, 119),
+                          fontWeight: FontWeight.bold),
+                      hintText: 'Enter First And Last Name'),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -61,7 +106,7 @@ class _CreateAccountScreenState extends State<Body> {
               Padding(
                 padding: const EdgeInsets.only(
                     left: 15.0, right: 15.0, top: 15, bottom: 0),
-                child: TextField(
+                child: TextFormField(
                   controller: passwordController,
                   cursorColor: Color.fromARGB(255, 124, 108, 119),
                   obscureText: true,
@@ -85,6 +130,34 @@ class _CreateAccountScreenState extends State<Body> {
                       hintText: 'Enter password'),
                 ),
               ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  padding: EdgeInsets.only(right: 10.0, top: 10.0, bottom: 100),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 124, 108, 119)),
+                    onPressed: createAccount,
+                    child: Text(
+                      'Create Account',
+                      style: TextStyle(
+                          color: Color(0xffffffff),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                  padding: EdgeInsets.only(left: 110),
+                  child: Row(children: <Widget>[
+                    Text("Have an account?"),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Sign In"))
+                  ]))
             ])));
   }
 }
