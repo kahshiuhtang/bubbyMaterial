@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ptr/screens/createAccount/CreateAccountScreen.dart';
 import 'package:ptr/screens/login/LoginScreen.dart';
 import 'package:ptr/screens/home/HomeScreen.dart';
 
@@ -8,6 +10,15 @@ class Body extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<Body> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  Future signIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim());
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -16,8 +27,8 @@ class _LoginScreenState extends State<Body> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(45.0),
-                  bottomRight: Radius.circular(45.0)),
+                  bottomLeft: Radius.circular(65.0),
+                  bottomRight: Radius.circular(65.0)),
               color: Color.fromARGB(255, 124, 108, 119),
             ),
             child: Padding(
@@ -33,6 +44,8 @@ class _LoginScreenState extends State<Body> {
             padding: const EdgeInsets.only(
                 left: 15.0, right: 15.0, top: 25, bottom: 0),
             child: TextField(
+              controller: emailController,
+              cursorColor: Color.fromARGB(255, 124, 108, 119),
               decoration: InputDecoration(
                   enabledBorder: const OutlineInputBorder(
                     // width: 0.0 produces a thin "hairline" border
@@ -55,6 +68,8 @@ class _LoginScreenState extends State<Body> {
             padding: const EdgeInsets.only(
                 left: 15.0, right: 15.0, top: 15, bottom: 0),
             child: TextField(
+              controller: passwordController,
+              cursorColor: Color.fromARGB(255, 124, 108, 119),
               obscureText: true,
               decoration: InputDecoration(
                   enabledBorder: const OutlineInputBorder(
@@ -105,9 +120,7 @@ class _LoginScreenState extends State<Body> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 124, 108, 119)),
-              onPressed: () {
-                Navigator.pushNamed(context, HomeScreen.routeName);
-              },
+              onPressed: signIn,
               child: Text(
                 'Sign In',
                 style: TextStyle(
@@ -120,7 +133,11 @@ class _LoginScreenState extends State<Body> {
           Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text("Don't Have An Account?"),
-              TextButton(onPressed: () {}, child: Text("Click Here"))
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, CreateAccountScreen.routeName);
+                  },
+                  child: Text("Click Here"))
             ])
           ]),
         ]),

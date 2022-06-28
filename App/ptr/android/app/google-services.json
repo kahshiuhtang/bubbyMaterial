@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "154572280636",
+    "project_id": "bubbymaterial",
+    "storage_bucket": "bubbymaterial.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154572280636:android:cc0702eba55d58e118c439",
+        "android_client_info": {
+          "package_name": "com.example.ptr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154572280636-m2lcuc5jkhk44abmrknoum7oflnbdpjr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrs7fN_edCdad_b-M_Ag6uUAzXpcz0DSw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "154572280636-m2lcuc5jkhk44abmrknoum7oflnbdpjr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "154572280636-695gd7e88uvkuq77ps0uurmr7jmjal7h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ptr"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
