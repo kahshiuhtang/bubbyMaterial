@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ptr/screens/createAccount/CreateAccountScreen.dart';
+import 'package:ptr/screens/forgotPassword/ForgotPasswordScreen.dart';
 import 'package:ptr/screens/login/LoginScreen.dart';
 import 'package:ptr/screens/home/HomeScreen.dart';
+import 'package:ptr/widgets/Utils.dart';
 
 import '../../../main.dart';
 
@@ -28,6 +30,7 @@ class _LoginScreenState extends State<Body> {
           password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
       print(e);
+      Utils.showSnackBar(e.message);
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
@@ -111,7 +114,8 @@ class _LoginScreenState extends State<Body> {
                 width: 100.0,
                 child: TextButton(
                   onPressed: () {
-                    //Forgot Password
+                    Navigator.pushNamed(
+                        context, ForgotPasswordScreen.routeName);
                   },
                   child: Text(
                     'Forgot Password',

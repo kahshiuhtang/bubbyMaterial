@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ptr/screens/createAccount/CreateAccountScreen.dart';
+import 'package:ptr/screens/forgotPassword/ForgotPasswordScreen.dart';
 import 'package:ptr/screens/home/HomeScreen.dart';
 import 'package:ptr/screens/login/LoginScreen.dart';
 
@@ -8,4 +9,6 @@ final Map<String, WidgetBuilder> routes_ = {
   LoginScreen.routeName: (BuildContext context) => LoginScreen(),
   CreateAccountScreen.routeName: (BuildContext context) =>
       CreateAccountScreen(),
+  ForgotPasswordScreen.routeName: (BuildContext context) =>
+      ForgotPasswordScreen(),
 };

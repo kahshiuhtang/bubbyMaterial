@@ -4,6 +4,7 @@ import 'package:ptr/routes.dart';
 import 'package:ptr/screens/createAccount/CreateAccountScreen.dart';
 import 'package:ptr/screens/login/LoginScreen.dart';
 import 'package:ptr/widgets/BottomNavigationBar.dart';
+import 'package:ptr/widgets/Utils.dart';
 import './widgets/ObjectiveCardWidget.dart';
 import 'screens/home/HomeScreen.dart';
 import 'package:ptr/routes.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'bubbyMaterial',
+      scaffoldMessengerKey: Utils.messengerKey,
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       home: MainScreen(),
@@ -42,7 +44,7 @@ class MainScreen extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return LoginScreen();
+                return HomeScreen();
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {

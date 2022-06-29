@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ptr/widgets/Utils.dart';
 
 import '../../../main.dart';
 
@@ -8,10 +9,12 @@ class Body extends StatefulWidget {
 }
 
 class _CreateAccountScreenState extends State<Body> {
-  final nameController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   createAccount() async {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) return;
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -24,6 +27,7 @@ class _CreateAccountScreenState extends State<Body> {
           password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
       print(e);
+      Utils.showSnackBar(e.message);
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
@@ -51,85 +55,70 @@ class _CreateAccountScreenState extends State<Body> {
                             color: Colors.white,
                             fontWeight: FontWeight.bold))),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15.0, right: 15.0, top: 25, bottom: 0),
-                child: TextField(
-                  controller: nameController,
-                  cursorColor: Color.fromARGB(255, 124, 108, 119),
-                  decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 124, 108, 119),
-                            width: 1.0),
+              Form(
+                  key: formKey,
+                  child: Column(children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15.0, right: 15.0, top: 25, bottom: 0),
+                      child: TextFormField(
+                        controller: emailController,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) =>
+                            value == null ? 'Please enter a valid email' : null,
+                        cursorColor: Color.fromARGB(255, 124, 108, 119),
+                        decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                              // width: 0.0 produces a thin "hairline" border
+                              borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 124, 108, 119),
+                                  width: 1.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              // width: 0.0 produces a thin "hairline" border
+                              borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 209, 208, 1163),
+                                  width: 1.0),
+                            ),
+                            labelText: 'Email',
+                            labelStyle: TextStyle(
+                                color: Color.fromARGB(255, 124, 108, 119),
+                                fontWeight: FontWeight.bold),
+                            hintText: 'Enter valid email as abc@gmail.com'),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 209, 208, 1163),
-                            width: 1.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15.0, right: 15.0, top: 15, bottom: 0),
+                      child: TextFormField(
+                        controller: passwordController,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (value) => value == null || value!.length < 6
+                            ? 'Password must be at least 6 characters!'
+                            : null,
+                        cursorColor: Color.fromARGB(255, 124, 108, 119),
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                              // width: 0.0 produces a thin "hairline" border
+                              borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 124, 108, 119),
+                                  width: 1.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              // width: 0.0 produces a thin "hairline" border
+                              borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 209, 208, 1163),
+                                  width: 1.0),
+                            ),
+                            labelText: 'Password',
+                            labelStyle: TextStyle(
+                                color: Color.fromARGB(255, 124, 108, 119),
+                                fontWeight: FontWeight.bold),
+                            hintText: 'Enter password'),
                       ),
-                      labelText: 'Full Name',
-                      labelStyle: TextStyle(
-                          color: Color.fromARGB(255, 124, 108, 119),
-                          fontWeight: FontWeight.bold),
-                      hintText: 'Enter First And Last Name'),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15.0, right: 15.0, top: 25, bottom: 0),
-                child: TextField(
-                  controller: emailController,
-                  cursorColor: Color.fromARGB(255, 124, 108, 119),
-                  decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 124, 108, 119),
-                            width: 1.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 209, 208, 1163),
-                            width: 1.0),
-                      ),
-                      labelText: 'Email',
-                      labelStyle: TextStyle(
-                          color: Color.fromARGB(255, 124, 108, 119),
-                          fontWeight: FontWeight.bold),
-                      hintText: 'Enter valid email as abc@gmail.com'),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15.0, right: 15.0, top: 15, bottom: 0),
-                child: TextFormField(
-                  controller: passwordController,
-                  cursorColor: Color.fromARGB(255, 124, 108, 119),
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 124, 108, 119),
-                            width: 1.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 209, 208, 1163),
-                            width: 1.0),
-                      ),
-                      labelText: 'Password',
-                      labelStyle: TextStyle(
-                          color: Color.fromARGB(255, 124, 108, 119),
-                          fontWeight: FontWeight.bold),
-                      hintText: 'Enter password'),
-                ),
-              ),
+                    ),
+                  ])),
               Align(
                 alignment: Alignment.centerRight,
                 child: Container(
