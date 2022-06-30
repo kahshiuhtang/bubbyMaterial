@@ -44,7 +44,7 @@ class MainScreen extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return HomeScreen();
+                return CreateAccountScreen();
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {

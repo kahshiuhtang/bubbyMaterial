@@ -46,11 +46,13 @@ class _HomeScreenState extends State<Body> {
                 right: -5.0,
                 child: GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditObjectiveScreen()))
-                          .then((_HomePageState) => setState(() {}));
+                      showDialog(
+                        useSafeArea: false,
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) =>
+                            EditObjectiveScreen(),
+                      );
                     },
                     child: Icon(
                         color: Color.fromARGB(255, 124, 108, 119),

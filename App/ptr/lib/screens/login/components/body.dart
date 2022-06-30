@@ -4,6 +4,7 @@ import 'package:ptr/screens/createAccount/CreateAccountScreen.dart';
 import 'package:ptr/screens/forgotPassword/ForgotPasswordScreen.dart';
 import 'package:ptr/screens/login/LoginScreen.dart';
 import 'package:ptr/screens/home/HomeScreen.dart';
+import 'package:ptr/widgets/HeaderLogoWidget.dart';
 import 'package:ptr/widgets/Utils.dart';
 
 import '../../../main.dart';
@@ -30,7 +31,11 @@ class _LoginScreenState extends State<Body> {
           password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
       print(e);
-      Utils.showSnackBar(e.message);
+      if (e.code == 'user-not-found') {
+        Utils.showSnackBar("No user found for that email.");
+      } else if (e.code == 'wrong-password') {
+        Utils.showSnackBar("Wrong password provided for that user");
+      }
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
@@ -40,22 +45,7 @@ class _LoginScreenState extends State<Body> {
       backgroundColor: Colors.white,
       body: Container(
         child: Column(children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(65.0),
-                  bottomRight: Radius.circular(65.0)),
-              color: Color.fromARGB(255, 124, 108, 119),
-            ),
-            child: Padding(
-                padding: EdgeInsets.only(top: 60.0, bottom: 15.0),
-                child: Text("bubby material",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 80,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold))),
-          ),
+          HeaderLogoWidget(),
           Padding(
             padding: const EdgeInsets.only(
                 left: 15.0, right: 15.0, top: 25, bottom: 0),

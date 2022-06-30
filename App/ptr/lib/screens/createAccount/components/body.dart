@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:ptr/widgets/HeaderLogoWidget.dart';
 import 'package:ptr/widgets/Utils.dart';
 
 import '../../../main.dart';
@@ -12,6 +14,10 @@ class _CreateAccountScreenState extends State<Body> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final RegExp emailValidatorRegExp =
+      RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   createAccount() async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
@@ -25,6 +31,19 @@ class _CreateAccountScreenState extends State<Body> {
       FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+      final FirebaseDatabase database = FirebaseDatabase.instance;
+      DatabaseReference ref =
+          FirebaseDatabase.instance.ref("users/" + _auth.currentUser!.uid);
+      await ref.update({
+        _auth.currentUser!.uid: {
+          "first name": firstNameController.text.trim(),
+          "last name": lastNameController.text.trim(),
+          "email": emailController.text.trim(),
+          "accountCreated": "" + DateTime.now().toString(),
+        }
+      });
+      Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       print(e);
       Utils.showSnackBar(e.message);
@@ -39,41 +58,83 @@ class _CreateAccountScreenState extends State<Body> {
             width: double.infinity,
             color: Color(0xFFF6F6F6),
             child: Column(children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(65.0),
-                      bottomRight: Radius.circular(65.0)),
-                  color: Color.fromARGB(255, 124, 108, 119),
-                ),
-                child: Padding(
-                    padding: EdgeInsets.only(top: 60.0, bottom: 15.0),
-                    child: Text("bubby material",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 80,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold))),
-              ),
+              HeaderLogoWidget(),
               Form(
                   key: formKey,
                   child: Column(children: <Widget>[
+                    Row(children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0, right: 7.5, top: 7.5, bottom: 0),
+                          child: TextFormField(
+                            controller: firstNameController,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) => value == null
+                                ? 'Please enter valid name'
+                                : null,
+                            cursorColor: Color.fromARGB(255, 124, 108, 119),
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  // width: 0.0 produces a thin "hairline" border
+                                  borderSide: const BorderSide(
+                                      color:
+                                          Color.fromARGB(255, 209, 208, 1163),
+                                      width: 1.0),
+                                ),
+                                labelText: 'First Name',
+                                labelStyle: TextStyle(
+                                    color: Color.fromARGB(255, 124, 108, 119),
+                                    fontWeight: FontWeight.bold),
+                                hintText: 'Enter first name'),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 1,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 7.5, right: 15.0, top: 7.5, bottom: 0),
+                          child: TextFormField(
+                            controller: lastNameController,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) => value == null
+                                ? 'Please enter valid name'
+                                : null,
+                            cursorColor: Color.fromARGB(255, 124, 108, 119),
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  // width: 0.0 produces a thin "hairline" border
+                                  borderSide: const BorderSide(
+                                      color:
+                                          Color.fromARGB(255, 209, 208, 1163),
+                                      width: 1.0),
+                                ),
+                                labelText: 'Last Name',
+                                labelStyle: TextStyle(
+                                    color: Color.fromARGB(255, 124, 108, 119),
+                                    fontWeight: FontWeight.bold),
+                                hintText: 'Enter last name'),
+                          ),
+                        ),
+                      ),
+                    ]),
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 15.0, right: 15.0, top: 25, bottom: 0),
+                          left: 15.0, right: 15.0, top: 7.5, bottom: 0),
                       child: TextFormField(
                         controller: emailController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) =>
-                            value == null ? 'Please enter a valid email' : null,
+                        validator: (value) => value == null ||
+                                !emailValidatorRegExp.hasMatch(value)
+                            ? 'Please enter a valid email'
+                            : null,
                         cursorColor: Color.fromARGB(255, 124, 108, 119),
                         decoration: InputDecoration(
-                            enabledBorder: const OutlineInputBorder(
-                              // width: 0.0 produces a thin "hairline" border
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 124, 108, 119),
-                                  width: 1.0),
-                            ),
                             focusedBorder: OutlineInputBorder(
                               // width: 0.0 produces a thin "hairline" border
                               borderSide: const BorderSide(
@@ -89,7 +150,7 @@ class _CreateAccountScreenState extends State<Body> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 15.0, right: 15.0, top: 15, bottom: 0),
+                          left: 15.0, right: 15.0, top: 7.5, bottom: 0),
                       child: TextFormField(
                         controller: passwordController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -99,12 +160,6 @@ class _CreateAccountScreenState extends State<Body> {
                         cursorColor: Color.fromARGB(255, 124, 108, 119),
                         obscureText: true,
                         decoration: InputDecoration(
-                            enabledBorder: const OutlineInputBorder(
-                              // width: 0.0 produces a thin "hairline" border
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 124, 108, 119),
-                                  width: 1.0),
-                            ),
                             focusedBorder: OutlineInputBorder(
                               // width: 0.0 produces a thin "hairline" border
                               borderSide: const BorderSide(

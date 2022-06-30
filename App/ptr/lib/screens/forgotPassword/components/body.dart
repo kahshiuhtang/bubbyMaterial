@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ptr/widgets/HeaderLogoWidget.dart';
 import 'package:ptr/widgets/Utils.dart';
 
 class Body extends StatefulWidget {
@@ -34,22 +35,7 @@ class _ForgotPasswordScreenState extends State<Body> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Column(children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(65.0),
-                  bottomRight: Radius.circular(65.0)),
-              color: Color.fromARGB(255, 124, 108, 119),
-            ),
-            child: Padding(
-                padding: EdgeInsets.only(top: 60.0, bottom: 15.0),
-                child: Text("bubby material",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 80,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold))),
-          ),
+          HeaderLogoWidget(),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0),
             child: Text(
