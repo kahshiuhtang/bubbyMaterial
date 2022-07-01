@@ -10,15 +10,6 @@ class Body extends StatefulWidget {
 class _ProfileScreenState extends State<Body> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: CustomAppBar(),
-        body: Column(children: <Widget>[
-          CircleAvatar(
-            backgroundImage:
-                NetworkImage('https://picsum.photos/id/237/200/300'),
-          ),
-          ElevatedButton(onPressed: () {}, child: Text("About Me")),
-          ProfileWidget(),
-        ]));
+    return Scaffold(appBar: CustomAppBar(), body: Column(children: <Widget>[]));
   }
 }
