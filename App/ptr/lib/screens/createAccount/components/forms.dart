@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ptr/screens/createAccount/components/datePicker.dart';
 import 'package:ptr/widgets/Utils.dart';
 import '../../../main.dart';
 
@@ -11,13 +12,16 @@ class Forms extends StatefulWidget {
 
 class _FormsState extends State<Forms> {
   final formKey = GlobalKey<FormState>();
+  DateTime selectedDate = DateTime.now();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final usernameController = TextEditingController();
+  final phoneNumberController = TextEditingController();
   final RegExp emailValidatorRegExp =
       RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
   createAccount() async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
@@ -43,6 +47,8 @@ class _FormsState extends State<Forms> {
           "accountCreated": "" + DateTime.now().toString(),
         }
       });
+      FirebaseDatabase.instance
+          .ref("usernames/" + usernameController.text.trim());
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       print(e);
@@ -52,7 +58,6 @@ class _FormsState extends State<Forms> {
   }
 
   Widget build(BuildContext context) {
-    DateTime selectedDate = DateTime.now();
     return Column(children: <Widget>[
       Form(
           key: formKey,
@@ -61,12 +66,13 @@ class _FormsState extends State<Forms> {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: 15.0, right: 7.5, top: 7.5, bottom: 0),
+                      left: 15.0, right: 7.5, top: 15, bottom: 0),
                   child: TextFormField(
                     controller: firstNameController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) =>
-                        value == null ? 'Please enter valid name' : null,
+                    validator: (value) => value == null || value!.length < 1
+                        ? 'Please enter valid name'
+                        : null,
                     cursorColor: Color.fromARGB(255, 124, 108, 119),
                     decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
@@ -89,12 +95,13 @@ class _FormsState extends State<Forms> {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: 7.5, right: 15.0, top: 7.5, bottom: 0),
+                      left: 7.5, right: 15.0, top: 15, bottom: 0),
                   child: TextFormField(
                     controller: lastNameController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) =>
-                        value == null ? 'Please enter valid name' : null,
+                    validator: (value) => value == null || value!.length < 1
+                        ? 'Please enter valid name'
+                        : null,
                     cursorColor: Color.fromARGB(255, 124, 108, 119),
                     decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
@@ -170,8 +177,13 @@ class _FormsState extends State<Forms> {
                   child: TextFormField(
                     controller: usernameController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) =>
-                        value == null ? 'Please enter valid username' : null,
+                    validator: (user) {
+                      if (user == null) {
+                        return "Please enter valid characters";
+                      } else if (!RegExp(r'^[A-Za-z0-9_.]+$').hasMatch(user)) {
+                        return "Enter valid characters";
+                      }
+                    },
                     cursorColor: Color.fromARGB(255, 124, 108, 119),
                     decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
@@ -196,10 +208,12 @@ class _FormsState extends State<Forms> {
                   padding: EdgeInsets.only(
                       left: 7.5, right: 15.0, top: 7.5, bottom: 0),
                   child: TextFormField(
-                    controller: lastNameController,
+                    controller: phoneNumberController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) =>
-                        value == null ? 'Please enter valid name' : null,
+                        value == null || !RegExp(r'^[0-9]+$').hasMatch(value)
+                            ? 'Please enter valid phone number'
+                            : null,
                     cursorColor: Color.fromARGB(255, 124, 108, 119),
                     decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
@@ -208,49 +222,21 @@ class _FormsState extends State<Forms> {
                               color: Color.fromARGB(255, 209, 208, 1163),
                               width: 1.0),
                         ),
-                        labelText: 'Last Name',
+                        labelText: 'Phone Number',
                         labelStyle: TextStyle(
                             color: Color.fromARGB(255, 124, 108, 119),
                             fontWeight: FontWeight.bold),
-                        hintText: 'Enter last name'),
+                        hintText: 'Enter phone #'),
                   ),
                 ),
               ),
-            ])
+            ]),
+            DatePicker(selectedDate: selectedDate),
           ])),
-      Center(
-          child: Row(
-        children: <Widget>[
-          Text('${selectedDate.month}/${selectedDate.day}/${selectedDate.year}',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 124, 108, 119),
-                  fontWeight: FontWeight.bold)),
-          SizedBox(width: 1),
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 124, 108, 119)),
-              child: Text(
-                  '${selectedDate.month}/${selectedDate.day}/${selectedDate.year}',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
-              onPressed: () async {
-                DateTime? newDate = await showDatePicker(
-                    context: context,
-                    initialDate: selectedDate,
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime(2100));
-                if (newDate == null) return;
-                print("Hello");
-                setState(() {
-                  selectedDate = newDate;
-                });
-              }),
-        ],
-      )),
       Align(
         alignment: Alignment.centerRight,
         child: Container(
-          padding: EdgeInsets.only(right: 10.0, top: 10.0, bottom: 100),
+          padding: EdgeInsets.only(right: 40.0, top: 10.0, bottom: 50),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 124, 108, 119)),
