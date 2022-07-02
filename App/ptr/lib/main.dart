@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ptr/routes.dart';
 import 'package:ptr/screens/createAccount/CreateAccountScreen.dart';
 import 'package:ptr/screens/login/LoginScreen.dart';
+import 'package:ptr/screens/profileScreen/ProfileScreen.dart';
 import 'package:ptr/widgets/BottomNavigationBar.dart';
 import 'package:ptr/widgets/Utils.dart';
 import './widgets/ObjectiveCardWidget.dart';
@@ -44,7 +45,7 @@ class MainScreen extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return LoginScreen();
+                return ProfileScreen();
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {

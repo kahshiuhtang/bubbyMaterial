@@ -5,6 +5,7 @@ import 'package:ptr/screens/editObjective/EditObjectiveScreen.dart';
 import 'package:ptr/screens/forgotPassword/ForgotPasswordScreen.dart';
 import 'package:ptr/screens/home/HomeScreen.dart';
 import 'package:ptr/screens/login/LoginScreen.dart';
+import 'package:ptr/screens/profileScreen/ProfileScreen.dart';
 
 final Map<String, WidgetBuilder> routes_ = {
   HomeScreen.routeName: (BuildContext context) => HomeScreen(),
@@ -15,5 +16,5 @@ final Map<String, WidgetBuilder> routes_ = {
       ForgotPasswordScreen(),
   EditObjectiveScreen.routeName: (BuildContext context) =>
       EditObjectiveScreen(),
-  ExploreScreen().routeName: (BuildContext context) => ExploreScreen(),
+  ProfileScreen.routeName: (BuildContext context) => ProfileScreen(),
 };

@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:ptr/screens/profileScreen/ProfileScreen.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({
+class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const ProfileAppBar({
     Key? key,
   }) : super(key: key);
   Widget build(BuildContext context) {
     return AppBar(
       leading: GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, ProfileScreen.routeName);
+            Navigator.pop(context);
           },
-          child: Icon(Icons.account_circle_rounded)),
+          child: Icon(Icons.arrow_back_ios_new_outlined)),
       elevation: 10,
-      title: Text(
-        "bubby material",
-        style: TextStyle(
+      title: Text("Profile",
+          style: TextStyle(
             color: Color(0xffFFFFFFF),
             fontWeight: FontWeight.bold,
-            fontFamily: 'Roboto'),
-      ),
-      actions: [Icon(Icons.more_vert)],
+          )),
+      actions: [
+        Padding(
+            padding: EdgeInsets.only(right: 10), child: Icon(Icons.settings)),
+      ],
       backgroundColor: Color.fromARGB(255, 124, 108, 119),
     );
   }
