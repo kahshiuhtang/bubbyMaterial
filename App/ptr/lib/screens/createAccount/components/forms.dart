@@ -21,6 +21,16 @@ class _FormsState extends State<Forms> {
   final phoneNumberController = TextEditingController();
   final RegExp emailValidatorRegExp =
       RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    usernameController.dispose();
+    phoneNumberController.dispose();
+    super.dispose();
+  }
 
   createAccount() async {
     final isValid = formKey.currentState!.validate();
@@ -37,18 +47,33 @@ class _FormsState extends State<Forms> {
           password: passwordController.text.trim());
       final FirebaseAuth _auth = FirebaseAuth.instance;
       final FirebaseDatabase database = FirebaseDatabase.instance;
-      DatabaseReference ref =
-          FirebaseDatabase.instance.ref("users/" + _auth.currentUser!.uid);
+      DatabaseReference ref = FirebaseDatabase.instance
+          .ref("users/" + _auth.currentUser!.uid + "/userInfo");
       await ref.update({
         _auth.currentUser!.uid: {
           "first name": firstNameController.text.trim(),
           "last name": lastNameController.text.trim(),
           "email": emailController.text.trim(),
           "accountCreated": "" + DateTime.now().toString(),
+          "date of birth":
+              "${selectedDate.month}/${selectedDate.day}/${selectedDate.year}",
         }
       });
-      FirebaseDatabase.instance
+      DatabaseReference ref1 = FirebaseDatabase.instance
           .ref("usernames/" + usernameController.text.trim());
+      await ref1.update({"uid": FirebaseAuth.instance.currentUser!.uid});
+      DatabaseReference ref2 = FirebaseDatabase.instance
+          .ref("users/" + _auth.currentUser!.uid + "/stats");
+      await ref2.update({
+        _auth.currentUser!.uid: {
+          "pointsScored": 0,
+          "positives": 0,
+          "negatives": 0,
+          "accountCreated": "" + DateTime.now().toString(),
+          "mostPoints": 0,
+          "leastPoints": 0,
+        }
+      });
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       print(e);

@@ -10,6 +10,8 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (index == 1) {
+      } else {}
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ptr/screens/profileScreen/ProfileScreen.dart';
 
@@ -5,6 +6,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     Key? key,
   }) : super(key: key);
+  logOut() async {
+    FirebaseAuth.instance.signOut();
+  }
+
   Widget build(BuildContext context) {
     return AppBar(
       leading: GestureDetector(
@@ -20,7 +25,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             fontWeight: FontWeight.bold,
             fontFamily: 'Roboto'),
       ),
-      actions: [Icon(Icons.more_vert)],
+      actions: [IconButton(onPressed: logOut, icon: Icon(Icons.more_vert))],
       backgroundColor: Color.fromARGB(255, 124, 108, 119),
     );
   }
