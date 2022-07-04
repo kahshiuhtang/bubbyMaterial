@@ -14,32 +14,35 @@ class _ExploreScreenState extends State<Body> {
     final userList = database.onValue;
     return SafeArea(
         child: Column(children: [
-      Expanded(
-          child: StreamBuilder<DatabaseEvent>(
-        stream: userList,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && !snapshot.hasError) {
-            DataSnapshot data = snapshot.data! as DataSnapshot;
-            Map<dynamic, dynamic> values = data.value! as Map<dynamic, dynamic>;
-            return new ListView.builder(
-                shrinkWrap: true,
-                itemCount: values.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Name: " + values[index]["Text"]),
-                        Text("Time: " + values[index]["TextTime"]),
-                      ],
-                    ),
-                  );
-                });
-          } else {
-            return Center(child: Text("No Data"));
-          }
-        },
-      ))
+      Stack(children: [
+        Expanded(
+            child: StreamBuilder<DatabaseEvent>(
+          stream: userList,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && !snapshot.hasError) {
+              DataSnapshot data = snapshot.data! as DataSnapshot;
+              Map<dynamic, dynamic> values =
+                  data.value! as Map<dynamic, dynamic>;
+              return new ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: values.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                      child: Row(children: <Widget>[
+                        Image(image: values[index]["profilePic"]),
+                        Text(
+                          values[index]["username"],
+                        )
+                      ]),
+                    );
+                  });
+            } else {
+              return Center(child: Text("No Data"));
+            }
+          },
+        )),
+        ElevatedButton(onPressed: () {}, child: Icon(Icons.add)),
+      ]),
     ]));
   }
 }
