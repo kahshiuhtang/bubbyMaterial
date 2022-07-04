@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ptr/explore/ExploreScreen.dart';
 import 'package:ptr/screens/createAccount/CreateAccountScreen.dart';
 import 'package:ptr/screens/editObjective/EditObjectiveScreen.dart';
 import 'package:ptr/screens/forgotPassword/ForgotPasswordScreen.dart';
