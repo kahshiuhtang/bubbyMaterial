@@ -16,4 +16,5 @@ final Map<String, WidgetBuilder> routes_ = {
   EditObjectiveScreen.routeName: (BuildContext context) =>
       EditObjectiveScreen(),
   ProfileScreen.routeName: (BuildContext context) => ProfileScreen(),
+  ExploreScreen.routeName: (BuildContext context) => ExploreScreen(),
 };
